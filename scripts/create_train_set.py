@@ -92,7 +92,11 @@ def preprocess_and_write(df, path):
     df['title_text']= df['title_text'].apply(lambda x:tokens_to_text(x))
     print("sequence has been converted to text again.")
     df.to_csv(path, index=False)
-    print("preprocessed train/dev dataset is ready.")
+    print("preprocessed dataset is ready.")
+
+def just_write(df, path):
+    df.to_csv(path, index=False)
+    print("unpreprocessed dataset is ready.")
 
 data_folder = "/app/data"
 
@@ -143,5 +147,12 @@ try:
 except FileExistsError:
     pass
 
+unpreprocessed_folder = os.path.join(data_folder, "unpreprocessed")
+try:
+    os.makedirs(unpreprocessed_folder)
+except FileExistsError:
+    pass
 
+just_write(final_train, os.path.join(unpreprocessed_folder,"train.csv"))
 preprocess_and_write(final_train, os.path.join(preprocessed_folder,"train.csv"))
+
