@@ -42,7 +42,7 @@ def compute_metrics(predictions, labels):
     accuracy = Accuracy(num_classes=4).to(device)
     results["f1_micro"] = f1_micro(predictions, labels).cpu().numpy().item()
     results["f1_macro"] = f1_macro(predictions, labels).cpu().numpy().item()
-    results["f1_macro"] = accuracy(predictions, labels).cpu().numpy().item()
+    results["accuracy"] = accuracy(predictions, labels).cpu().numpy().item()
     return results
 
 def train_eval_loop(model, train_dataloader, optimizer, scheduler, epochs, training_steps):

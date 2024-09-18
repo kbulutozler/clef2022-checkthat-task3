@@ -1,0 +1,29 @@
+# Use the official PyTorch image with CUDA support as a base
+FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu20.04
+
+# Set the working directory in the container
+WORKDIR /app
+# Install essential system dependencies
+RUN apt-get update && apt-get install -y \
+    python3-pip \
+    git \
+    wget \
+    && apt-get clean
+
+# Install Python dependencies (keeping it minimal)
+RUN pip install --no-cache-dir torch \
+    transformers \
+    datasets \
+    accelerate \
+    bitsandbytes \
+    peft \
+    sentencepiece
+
+# (Optional) Set environment variables for Hugging Face cache
+ENV HF_HOME=/app/.cache/huggingface
+
+# Set the working directory
+WORKDIR /app
+
+# Default command
+CMD ["bash"]
