@@ -5,8 +5,8 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 import pandas as pd
 from huggingface_hub import login
-
-login(token="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")
+hf_token=""
+login(token=hf_token)
 
 
 model_name = "meta-llama/Meta-Llama-3.1-8B-Instruct"
