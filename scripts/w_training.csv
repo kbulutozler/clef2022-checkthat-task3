@@ -1,0 +1,6 @@
+Metric,Value
+Accuracy,0.3909
+Balanced_accuracy,0.3477
+Precision,0.3822
+Recall,0.3909
+F1,0.3831
