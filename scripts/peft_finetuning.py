@@ -1,12 +1,60 @@
-import torch
+#import torch
 from datasets import load_dataset, Dataset
-from trl import SFTTrainer
-from peft import LoraConfig
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, BitsAndBytesConfig, TrainingArguments
+#from trl import SFTTrainer
+#from peft import LoraConfig
+from transformers import BitsAndBytesConfig, AutoModelForSequenceClassification
 
 import pandas as pd
-from huggingface_hub import login
-import traceback
+#from huggingface_hub import login
+
+df = pd.read_csv('/Users/bulut/Dropbox/repositories/clef2022-checkthat-task3/data/unpreprocessed/train.csv')
+df_test = pd.read_csv('/Users/bulut/Dropbox/repositories/clef2022-checkthat-task3/data/unpreprocessed/test.csv')
+df.columns = ['text', 'label']
+df_test.columns = ['text', 'label']
+df = df.sample(frac=1).reset_index(drop=True)
+df_train = df.iloc[:1000]
+df_dev = df.iloc[1000:]
+
+print(df_train.head())
+print(df_dev.head())
+print("\nTrain data label distribution:")
+print(df_train['label'].value_counts(normalize=True))
+
+print("\nDev data label distribution:")
+print(df_dev['label'].value_counts(normalize=True))
+
+# Convert to HuggingFace datasets
+from datasets import Dataset
+
+train_dataset = Dataset.from_pandas(df_train)
+dev_dataset = Dataset.from_pandas(df_dev)
+
+print("\nTrain dataset:")
+print(train_dataset)
+print("\nDev dataset:")
+print(dev_dataset)
+
+
+
+
+quantization_config = BitsAndBytesConfig(
+    load_in_4bit = True, 
+    bnb_4bit_quant_type = 'nf4',
+    bnb_4bit_use_double_quant = True, 
+    bnb_4bit_compute_dtype = torch.bfloat16 
+)
+
+model_name = "meta-llama/Meta-Llama-3-8B"
+
+model = AutoModelForSequenceClassification.from_pretrained(
+    model_name,
+    quantization_config=quantization_config,
+    num_labels=4,
+    device_map='auto'
+)
+
+exit()
+
 
 login(token="")
 
