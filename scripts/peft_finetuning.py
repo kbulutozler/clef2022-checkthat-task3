@@ -61,7 +61,7 @@ quantization_config = BitsAndBytesConfig(
     bnb_4bit_compute_dtype = torch.bfloat16 
 )
 
-login(token="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")
+login(token="")
 
 model_name = "meta-llama/Meta-Llama-3.1-8B"
 
