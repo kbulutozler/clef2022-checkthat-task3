@@ -4,12 +4,14 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import accuracy_score, balanced_accuracy_score, classification_report, precision_recall_fscore_support
 import csv
+from huggingface_hub import login
+login(token="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")  # Replace with your actual token
 
 ### Data Preparation
 
 # Load your datasets
-df = pd.read_csv('/root/clef2022-checkthat-task3/data/unpreprocessed/train.csv')
-df_test = pd.read_csv('/root/clef2022-checkthat-task3/data/unpreprocessed/test.csv')
+df = pd.read_csv('../data/unpreprocessed/train.csv')
+df_test = pd.read_csv('../data/unpreprocessed/test.csv')
 # Create label mappings
 unique_labels = df['label'].unique()
 label2id = {label: idx for idx, label in enumerate(unique_labels)}
